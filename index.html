@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Battleship</title>
+</head>
+<body>
+    <main>
+        <div id="screen-start" class="screen">
+         <div class="logo-container">
+            <img src="./images/Logo-ship.png" alt="" class="logo-img" />
+         </div> 
+         <div class="content-container">
+            <h1>Battelship</h1>
+            <br />
+            <br />
+            <button id="btn-start">Start</button>
+         </div>  
+        </div>
+
+        <div id="screen-game" class="screen">
+            <div id="board"></div>
+            <h2>Shoot at enemy ships!</h2>
+            <button id="btn-reveal">Reveal</button>
+        </div>
+
+        <div id="screen-end" class="screen">
+            <h1>Game Over</h1>
+            <br />
+            <button id="btn-restart">Restart</button>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/board.js"></script>
+    <script type="text/javascript" src="js/battelship.js"></script>
+    
+</body>
+</html>
