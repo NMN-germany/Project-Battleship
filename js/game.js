@@ -2,7 +2,7 @@ class Game {
     constructor() {
         this.startScreen = document.querySelector("#start-screen");
         this.gameScreen = document.querySelector("#game-screen");
-        this.gameOverScreen = document.querySelector("#gameOver-screen");
+        this.gameoverScreen = document.querySelector("#gameover-screen");
     }
 
 

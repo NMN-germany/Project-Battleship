@@ -16,7 +16,6 @@ body {
 
 .logo-container {
     margin-top: 40px;
-    
 }
 
 .content-container {
@@ -29,11 +28,47 @@ body {
     height: 300px;
 }
 
-#screen-game {
+#game-screen {
     display: none;
+    background-color: rgb(240, 229, 215);
 }
 
-#screen-end {
+.board {
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    background-color: rgb(134, 205, 238);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cell:hover {
+    background-color: rgb(7, 139, 190);
+}
+
+.cell.strike {
+    
+    background-image: url(".images/explosion.jpg");
+}
+
+.cell.water {
+    background-color: rgb(191, 215, 235);
+}
+
+.cell.ship {
+    background-color: grey;
+}
+
+#enemyBoard .cell.ship {
+    visibility: hidden;
+}
+
+#gameover-screen {
     display: none;
 }
 
