@@ -1,1 +1,2 @@
-   row.appendChild(cell);
+
+        cell.classList.add("water");

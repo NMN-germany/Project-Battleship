@@ -52,8 +52,8 @@ body {
 }
 
 .cell.strike {
-    
-    background-image: url(".images/explosion.jpg");
+    background-color: red !important;
+    border: 2px solid black;
 }
 
 .cell.water {
@@ -64,8 +64,8 @@ body {
     background-color: grey;
 }
 
-#enemyBoard .cell.ship {
-    visibility: hidden;
+#enemyBoard [data-has-ship="true"] {
+    background-color: rgb(134, 205, 238);
 }
 
 #gameover-screen {
