@@ -29,8 +29,8 @@ class Game {
     this.enemyBoard.generateBoard();
     this.enemyBoard.placeShips();
     this.shipsIcons("enemy-ships", 10);
-     this.enemyBoard.onShipHit = (boardId) => {
-        this.removeShipIcon("enemy-ships");
+        this.enemyBoard.onShipHit = (boardId) => {
+            this.removeShipIcon("enemy-ships");
     };
 
     this.enemyBoard.onCellClick = (cell)  => {    // callback function to the enemy board
@@ -106,7 +106,7 @@ class Game {
     this.gameoverScreen.querySelector("h1").textContent = winner = "player" ? "You Win!" : "You Lose!";
 
     //play sound according to result
-    const audioPath = winner === "player" ? "assets/Win.mp3" : "assest/Lose.mp3";
+    const audioPath = winner === "player" ? "sounds/Win.mp3" : "sounds/Lose.mp3";
     const audio = new Audio(audioPath);
     audio.play();
  }

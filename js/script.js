@@ -3,8 +3,8 @@ const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 document.getElementById("ships-container");
 //import audios
-const winSound = new Audio("./assets/Win.mp3");
-const loseSound = new Audio("./assets/Lose.mp3");
+const winSound = new Audio("sounds/Win.mp3");
+const loseSound = new Audio("sounds/Lose.mp3");
 
 let game;
 
