@@ -2,6 +2,9 @@
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 document.getElementById("ships-container");
+//import audios
+const winSound = new Audio("./assets/Win.mp3");
+const loseSound = new Audio("./assets/Lose.mp3");
 
 let game;
 
@@ -20,6 +23,7 @@ function startGame() {
     game = new Game()
     game.start()
 }
+
 
 
 function restartGame() {

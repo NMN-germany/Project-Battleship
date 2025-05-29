@@ -48,6 +48,11 @@ class Game {
 
     this.enemyBoard.handleShot(cell);  //player shoots at the enemy
 
+    if (this.enemyBoard.allShipsSunk()) {
+        this.showGameOver("player");
+        return;
+    }
+
     setTimeout(() => {
         this.enemyShot();  //enemy shoots at the player
         this.isPlayerTurn = true;
@@ -67,6 +72,9 @@ class Game {
     if(!cell.classList.contains("strike") && !cell.classList.contains("water")) {
         this.playerBoard.handleShot(cell);
         this.isPlayerTurn = true;
+        if (this.playerBoard.allShipsSunk()) {
+            this.showGameOver("enemy");
+        }
     } else {
         this.enemyShot();
     }
@@ -85,17 +93,35 @@ class Game {
  removeShipIcon(containerId) {
     const container = document.getElementById(containerId);
     if (container && container.firstChild) {
-        container.removeChild(container.firstChild);
-    } //remove ships from left to right (firsChild)
+        container.removeChild(container.firstChild);//remove ships from left to right (firsChild)
+    } 
+ }
+
+
+ showGameOver(winner) {
+    this.gameScreen.style.display = "none";
+    this.gameoverScreen.style.display = "block";
+
+    //shows result in the gameover screen
+    this.gameoverScreen.querySelector("h1").textContent = winner = "player" ? "You Win!" : "You Lose!";
+
+    //play sound according to result
+    const audioPath = winner === "player" ? "assets/Win.mp3" : "assest/Lose.mp3";
+    const audio = new Audio(audioPath);
+    audio.play();
  }
 
 
  restart() {
     console.log("Restarting game");
-    this.gameScreen.style.display = "none";
-    this.gameoverScreen.style.display = "block";
+    this.gameoverScreen.style.display = "none";
+    this.gameScreen.style.display = "block";
+    
     //restart boards
     this.playerBoard.reset();
     this.enemyBoard.reset();
+
+    //places ships again
+    this.start();
  }
 }

@@ -5,6 +5,7 @@ class Board {
     this.boardId = boardId;
     this.totalShips = 10;
     this.strikes = 0;
+    this.ships = []; // array of ships
     }
 
 //creates board inside the indicated table
@@ -63,7 +64,7 @@ class Board {
     if(cell.classList.contains("strike") || cell.classList.contains("water")) //if the cell was already clicked(strike/water), do nothing
         return;
 
-     const isStrike = cell.classList.contains("ship") || cell.dataset.hasShip === "true"; // check if the cell has a ship
+        const isStrike = cell.classList.contains("ship") || cell.dataset.hasShip === "true"; // check if the cell has a ship
 
     if(isStrike) {
         cell.classList.add("strike"); //mark as shot
@@ -79,13 +80,20 @@ class Board {
     }
 
     if(this.strikes === this.totalShips) {
-      alert("You sank all the ships!"); //check if all ships are fired
+        alert("You sank all the ships!"); //check if all ships are fired
     }
   }
 
+
+  allShipsSunk() {
+        return this.strikes === this.totalShips;
+  }
+
+
+
   reset() {
-    this.generateBoard();
-    this.placeShips();
+        this.generateBoard();
+        this.placeShips();
   }
 
 };
