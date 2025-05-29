@@ -1,21 +1,21 @@
 class Board {
     constructor(size, boardId) {
-    this.size = size;
-    this.board = document.getElementById(boardId);
-    this.boardId = boardId;
-    this.totalShips = 10;
-    this.strikes = 0;
-    this.ships = []; // array of ships
+        this.size = size;
+        this.board = document.getElementById(boardId);
+        this.boardId = boardId;
+        this.totalShips = 10;
+        this.strikes = 0;
+        this.ships = []; // array of ships
     }
 
-//creates board inside the indicated table
+    //creates board inside the indicated table
    generateBoard() {
     this.board.innerHTML = '';   //clean board
     
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < this.size; i++) {
         const row = document.createElement("tr");
 
-        for (let j = 0; j < 8; j++) {
+        for (let j = 0; j < this.size; j++) {
             const cell = document.createElement("td");
             //store the i and j coordinates in data attributes for later use (API dataset from HTML)
             cell.dataset.row = i;
@@ -32,68 +32,75 @@ class Board {
         }
         this.board.appendChild(row);
       }
-      console.log("Creating board for:", this.boardId, this.board);
+      console.log("Creating board for:", this.boardId);
 
    }
 
 
-//places the ships
-  placeShips() {
-    let placed = 0;
+    //places the ships randomly
+    placeShips() {
+        let placed = 0;
 
-    for (let i = 0; i < 10; i++) {
-        const row = Math.floor(Math.random() * this.size);
-        const col = Math.floor(Math.random() * this.size);
-        //this selector looks for an element that has two specific data attributes
-        const cell = this.board.querySelector(`[data-row='${row}'][data-col='${col}']`); 
+        while (placed < this.totalShips) {
+            const row = Math.floor(Math.random() * this.size);
+            const col = Math.floor(Math.random() * this.size);
 
-        if(!cell.classList.contains("ship") && !cell.dataset.hasShip) { //check if there is already ship (visible or hidden)
-         if(this.boardId === "playerBoard") {
-           cell.classList.add("ship");    //visible player ships
-           } else {
-             cell.dataset.hasShip = "true";    //hidden enemy ships
-           }
-           placed++;
-        }    
-        console.log(cell);
+            //this selector looks for an element that has two specific data attributes
+            const cell = this.board.querySelector(`[data-row='${row}'][data-col='${col}']`);
+
+            //if the cell if already occupied, ship it
+            if (!cell || cell.classList.contains("ship") || cell.dataset.hasShip === "true") {
+                continue;
+            }
+
+            if (this.boardId === "playerBoard") {
+                cell.classList.add("ship"); //show ships for the player
+            } else {
+                cell.dataset.hasShip = "true"; //hide ships for the enemy
+            }
+
+            placed++;
+        } 
     }
- }
+ 
 
+    //handles a shot fired at a cell
+    handleShot(cell) {
+        if(cell.classList.contains("strike") || cell.classList.contains("water")) //if the cell was already clicked(strike/water), do nothing
+            return;
 
-  handleShot(cell) {
-    if(cell.classList.contains("strike") || cell.classList.contains("water")) //if the cell was already clicked(strike/water), do nothing
-        return;
+            const isStrike = cell.classList.contains("ship") || cell.dataset.hasShip === "true"; // check if the cell has a ship
 
-        const isStrike = cell.classList.contains("ship") || cell.dataset.hasShip === "true"; // check if the cell has a ship
+        if(isStrike) {
+            cell.classList.add("strike"); //mark as shot
+            this.strikes++;
 
-    if(isStrike) {
-        cell.classList.add("strike"); //mark as shot
-        this.strikes++;
-        //notifying the game to remove a ship icon (callback)
-        if(this.onShipHit) {
-           this.onShipHit(this.boardId);
+            //notify Game instance that a ship was hit
+            if(this.onShipHit) {
+            this.onShipHit(this.boardId);
+            }
+
+            console.log("Strike!! Total strikes " + this.strikes);
+
+        } else {
+            cell.classList.add("water");
+            console.log("Water!!")  
         }
-        console.log("Strike!! Total strikes " + this.strikes);
-    } else {
-        cell.classList.add("water");
-        console.log("Water!!")  
+
+        if(this.strikes === this.totalShips) {
+            alert("You sank all the ships!"); //check if all ships are fired
+        }
     }
 
-    if(this.strikes === this.totalShips) {
-        alert("You sank all the ships!"); //check if all ships are fired
-    }
-  }
 
-
-  allShipsSunk() {
+    //returns true if all ships have been hit
+    allShipsSunk() {
         return this.strikes === this.totalShips;
-  }
+    }
 
 
-
-  reset() {
+    reset() {
         this.generateBoard();
         this.placeShips();
-  }
-
-};
+    }
+}

@@ -10,7 +10,7 @@
     <main>
         <div id="start-screen" class="screen">
             <div class="logo-container">
-                <img src="./images/Logo-ship.png" alt="" class="logo-img" />
+                <img src="./images/batalla-naval.png" alt="" class="logo-img" />
             </div> 
             <div class="content-container">
                 <h1>Battleship</h1>
@@ -34,11 +34,13 @@
             <div class="ships-container">
                 <div>
                     <h3>Your ships</h3>
-                    <div id="player-ships" class="ship"></div>
+                    <!-- use a fixed height to avoid shifting when ships are removed -->
+                    <div id="player-ships" class="ship ship-static"></div>
                 </div>
                 <div>
                     <h3>Enemy ships</h3>
-                    <div id="enemy-ships" class="ship"></div>
+                    <!-- use a fixed height to avoid shifting when ships are removed -->
+                    <div id="enemy-ships" class="ship ship-static"></div>
                 </div>                              
             </div>
         </div>

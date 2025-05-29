@@ -48,10 +48,13 @@ class Game {
 
     this.enemyBoard.handleShot(cell);  //player shoots at the enemy
 
+    //check if the game is over
     if (this.enemyBoard.allShipsSunk()) {
         this.showGameOver("player");
-        return;
+    } else if (this.playerBoard.allShipsSunk()) {
+        this.showGameOver("enemy");
     }
+
 
     setTimeout(() => {
         this.enemyShot();  //enemy shoots at the player
@@ -80,6 +83,7 @@ class Game {
     }
  }
 
+
  shipsIcons(containerId, number) {
     const container = document.getElementById(containerId);
     container.innerHTML = ""; 
@@ -103,7 +107,8 @@ class Game {
     this.gameoverScreen.style.display = "block";
 
     //shows result in the gameover screen
-    this.gameoverScreen.querySelector("h1").textContent = winner = "player" ? "You Win!" : "You Lose!";
+    const resultText = winner === "player" ? "You Win!" : "You Lose!";
+    this.gameoverScreen.querySelector("h1").textContent = resultText;
 
     //play sound according to result
     const audioPath = winner === "player" ? "sounds/Win.mp3" : "sounds/Lose.mp3";

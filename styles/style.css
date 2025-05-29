@@ -3,9 +3,8 @@ body {
     margin: 0;
     text-align: center;
     background-color: rgb(118, 143, 196);
+    
 }
-
-
 
 
 #start-screen {
@@ -32,7 +31,6 @@ body {
     width: 100%;
     gap: 15px;
 }
-
 
 
 .logo-container {
@@ -140,7 +138,9 @@ body {
     flex-wrap: wrap;
     max-width: 250px;
     justify-content: center;
+    min-height: 72px; /*static heicht: 2 rows * (30px + gap) approx*/
 }
+
 
 .ship-icon {
     width: 30px;
@@ -149,6 +149,7 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    flex-shrink: 0; /*prevents shrinking*/
 }
 
 
@@ -218,6 +219,7 @@ body {
     display: inline-block;
     font-family: 'Brush Script MT', cursive;
     font-size: italic;
+    color: rgb(87, 70, 70);
 }
 
 body button {
