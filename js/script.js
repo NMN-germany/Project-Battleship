@@ -1,6 +1,7 @@
 //varibles
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
+document.getElementById("ships-container");
 
 let game;
 

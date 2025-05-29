@@ -4,48 +4,91 @@ class Game {
         this.gameScreen = document.querySelector("#game-screen");
         this.gameoverScreen = document.querySelector("#gameover-screen");
 
-        this.playerBoard = new Board(10, "playerBoard");
-        this.enemyBoard = new Board(10, "enemyBoard");
+        this.playerBoard = new Board(8, "playerBoard");
+        this.enemyBoard = new Board(8, "enemyBoard");
 
-        this.isPlayerTurn = false; //"false" only until start()
+        this.isPlayerTurn = true;
     }
 
 
  start() {
     console.log("game is running");
 
-    this.gameScreen.style.height = this.height + "px";
-    this.gameScreen.style.width = this.width + "px";
     this.startScreen.style.display = "none";
     this.gameScreen.style.display = "block";
 
     //creates and stores the boards
     this.playerBoard.generateBoard();
     this.playerBoard.placeShips();
+    this.shipsIcons("player-ships", 10);
+    this.playerBoard.onShipHit = (boardId) => {
+        this.removeShipIcon("player-ships");
+    };
 
     
     this.enemyBoard.generateBoard();
     this.enemyBoard.placeShips();
+    this.shipsIcons("enemy-ships", 10);
+     this.enemyBoard.onShipHit = (boardId) => {
+        this.removeShipIcon("enemy-ships");
+    };
 
-    //music??
+    this.enemyBoard.onCellClick = (cell)  => {    // callback function to the enemy board
+        this.playerShot(cell);
+    };
+ }
 
-    // callback function to the enemy board
-    this.enemyBoard.onShotCallback = (cell) => {
-        if(!this.isPlayerTurn) return;
 
-         const hit = this.enemyBoard.handleShot(cell);   //check if it was a hit
+ //set game turns
+ playerShot(cell) {
+    if (!this.isPlayerTurn)
+        return; //do not allow shooting if it's not the player's turn
 
-        if(hit) {
-            console.log("Enemy attack!!!");
-        } else {
-            console.log("Water!!");
-        }
+    this.isPlayerTurn = false; //disable player turn
+
+    this.enemyBoard.handleShot(cell);  //player shoots at the enemy
+
+    setTimeout(() => {
+        this.enemyShot();  //enemy shoots at the player
+        this.isPlayerTurn = true;
+    }, 1000);
+ }
+
+
+ enemyShot() {
+    const row = Math.floor(Math.random() * this.playerBoard.size);
+    const col = Math.floor(Math.random() * this.playerBoard.size);
+
+    //select the cell on the player's board corresponding to the random row and column
+    const cell = this.playerBoard.board.querySelector(`[data-row='${row}'][data-col='${col}']`);
+    console.log(cell);
+
+    //check if the cell has not already been targered
+    if(!cell.classList.contains("strike") && !cell.classList.contains("water")) {
+        this.playerBoard.handleShot(cell);
+        this.isPlayerTurn = true;
+    } else {
+        this.enemyShot();
     }
  }
 
- enablePlayerTurn() {
-
+ shipsIcons(containerId, number) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ""; 
+    for (let i = 0; i < number; i++) {
+        const ship = document.createElement("div");
+        ship.classList.add("ship-icon");
+        container.appendChild(ship);
+    }
  }
+
+ removeShipIcon(containerId) {
+    const container = document.getElementById(containerId);
+    if (container && container.firstChild) {
+        container.removeChild(container.firstChild);
+    } //remove ships from left to right (firsChild)
+ }
+
 
  restart() {
     console.log("Restarting game");

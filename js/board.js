@@ -11,10 +11,10 @@ class Board {
    generateBoard() {
     this.board.innerHTML = '';   //clean board
     
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         const row = document.createElement("tr");
 
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < 8; j++) {
             const cell = document.createElement("td");
             //store the i and j coordinates in data attributes for later use (API dataset from HTML)
             cell.dataset.row = i;
@@ -23,14 +23,16 @@ class Board {
 
             //adds click only on enemy board
             if(this.boardId === "enemyBoard") {
-                cell.addEventListener("click", () => {
-                    this.handleShot(cell);
+                cell.addEventListener("click", () => {   
+                    if (this.onCellClick) this.onCellClick(cell);  //call back to Game
                 });
             }
             row.appendChild(cell);
         }
         this.board.appendChild(row);
       }
+      console.log("Creating board for:", this.boardId, this.board);
+
    }
 
 
@@ -44,7 +46,7 @@ class Board {
         //this selector looks for an element that has two specific data attributes
         const cell = this.board.querySelector(`[data-row='${row}'][data-col='${col}']`); 
 
-        if(!cell.classList.contains("ship") && !cell.dataset.hasShip) { //check if there is already ship
+        if(!cell.classList.contains("ship") && !cell.dataset.hasShip) { //check if there is already ship (visible or hidden)
          if(this.boardId === "playerBoard") {
            cell.classList.add("ship");    //visible player ships
            } else {
@@ -66,6 +68,10 @@ class Board {
     if(isStrike) {
         cell.classList.add("strike"); //mark as shot
         this.strikes++;
+        //notifying the game to remove a ship icon (callback)
+        if(this.onShipHit) {
+           this.onShipHit(this.boardId);
+        }
         console.log("Strike!! Total strikes " + this.strikes);
     } else {
         cell.classList.add("water");
