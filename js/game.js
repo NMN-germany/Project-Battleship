@@ -7,6 +7,14 @@ class Game {
         this.playerBoard = new Board(8, "playerBoard");
         this.enemyBoard = new Board(8, "enemyBoard");
 
+        this.playerBoard.onAllShipsSunk = (boardId) => {
+            this.showGameOverScreen("enemy");
+        };
+
+        this.enemyBoard.onAllShipsSunk = (boardId) => {
+            this.showGameOverScreen("player");
+        };
+
         this.isPlayerTurn = true;
         this.playerShipsLeft = 10;
         this.enemyShipsLeft = 10;
@@ -59,9 +67,9 @@ class Game {
 
       //check if the game is over
     if (this.enemyBoard.allShipsSunk()) {
-        this.showGameOver("player");
+        this.showGameOverScreen("player");
     } else if (this.playerBoard.allShipsSunk()) {
-        this.showGameOver("enemy");
+        this.showGameOverScreen("enemy");
     }
 
     setTimeout(() => {
@@ -88,9 +96,9 @@ class Game {
         this.isPlayerTurn = true;
 
         if (this.enemyBoard.allShipsSunk()) {
-            this.showGameOver("player");
+            this.showGameOverScreen("player");
         } else if (this.playerBoard.allShipsSunk()) {
-            this.showGameOver("enemy");
+            this.showGameOverScreen("enemy");
         }
             
 
@@ -118,12 +126,15 @@ class Game {
  }
 
 
- showGameOver(winner) {
+ showGameOverScreen(winner) {
     this.gameScreen.style.display = "none";
     this.gameoverScreen.style.display = "block";
 
     //shows result in the gameover screen
-    const resultText = winner === "player" ? "You Win!" : "You Lose!";
+    const resultText = winner === "player" 
+    ? "🚀 Victory!...You have sunk all the enemy ships!" 
+    : "💥 Defeat...All your ships have been destroyed!";
+
     document.getElementById("winner-message").textContent = resultText;
 
     //play sound according to result

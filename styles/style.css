@@ -8,7 +8,7 @@ body {
 
 #start-screen {
     display: flex;
-    background-color: rgb(196, 196, 201); 
+    background-color: rgb(240, 229, 215); 
     flex-direction: column;
     align-items: center;
     justify-content: center;

@@ -85,8 +85,13 @@ class Board {
         }
 
         if (this.strikes === this.totalShips) {
-            alert("You sank all the ships");  //check if all ships are fired
+            if (this.onAllShipsSunk) {
+                this.onAllShipsSunk(this.boardId); //notify the game
+            }
         }
+        //if (this.strikes === this.totalShips) {
+            //alert("You sank all the ships");  //check if all ships are fired
+        //}
     }
 
 
