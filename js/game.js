@@ -8,6 +8,8 @@ class Game {
         this.enemyBoard = new Board(8, "enemyBoard");
 
         this.isPlayerTurn = true;
+        this.playerShipsLeft = 10;
+        this.enemyShipsLeft = 10;
     }
 
 
@@ -17,18 +19,22 @@ class Game {
     this.startScreen.style.display = "none";
     this.gameScreen.style.display = "block";
 
+    //reset the counters
+    this.playerShipsLeft = 10;
+    this.enemyShipsLeft = 10;
+
     //creates and stores the boards
     this.playerBoard.generateBoard();
     this.playerBoard.placeShips();
-    this.shipsIcons("player-ships", 10);
+    this.shipsIcons("player-ships", this.playerShipsLeft);
     this.playerBoard.onShipHit = (boardId) => {
-        this.removeShipIcon("player-ships");
+    this.removeShipIcon("player-ships");
     };
 
     
     this.enemyBoard.generateBoard();
     this.enemyBoard.placeShips();
-    this.shipsIcons("enemy-ships", 10);
+    this.shipsIcons("enemy-ships", this.enemyShipsLeft);
         this.enemyBoard.onShipHit = (boardId) => {
             this.removeShipIcon("enemy-ships");
     };
@@ -38,6 +44,8 @@ class Game {
     };
  }
 
+    
+  
 
  //set game turns
  playerShot(cell) {
@@ -48,22 +56,22 @@ class Game {
 
     this.enemyBoard.handleShot(cell);  //player shoots at the enemy
 
-    //check if the game is over
+      //check if the game is over
     if (this.enemyBoard.allShipsSunk()) {
         this.showGameOver("player");
     } else if (this.playerBoard.allShipsSunk()) {
         this.showGameOver("enemy");
     }
 
-
     setTimeout(() => {
         this.enemyShot();  //enemy shoots at the player
-        this.isPlayerTurn = true;
     }, 1000);
  }
 
 
  enemyShot() {
+
+    //generates a random position on the player's board
     const row = Math.floor(Math.random() * this.playerBoard.size);
     const col = Math.floor(Math.random() * this.playerBoard.size);
 
@@ -71,13 +79,20 @@ class Game {
     const cell = this.playerBoard.board.querySelector(`[data-row='${row}'][data-col='${col}']`);
     console.log(cell);
 
+
     //check if the cell has not already been targered
     if(!cell.classList.contains("strike") && !cell.classList.contains("water")) {
-        this.playerBoard.handleShot(cell);
+        this.playerBoard.handleShot(cell);  //handleShot return true if it's sucessful
+        
         this.isPlayerTurn = true;
-        if (this.playerBoard.allShipsSunk()) {
+        
+        if (this.enemyBoard.allShipsSunk()) {
+            this.showGameOver("player");
+        } else if (this.playerBoard.allShipsSunk()) {
             this.showGameOver("enemy");
         }
+            
+
     } else {
         this.enemyShot();
     }
@@ -108,19 +123,21 @@ class Game {
 
     //shows result in the gameover screen
     const resultText = winner === "player" ? "You Win!" : "You Lose!";
-    this.gameoverScreen.querySelector("h1").textContent = resultText;
+    document.getElementById("winner-message").textContent = resultText;
 
     //play sound according to result
-    const audioPath = winner === "player" ? "sounds/Win.mp3" : "sounds/Lose.mp3";
-    const audio = new Audio(audioPath);
-    audio.play();
+    if (winner === "player") {
+        winSound.play();
+    } else {
+        loseSound.play();
+    }
  }
 
 
  restart() {
     console.log("Restarting game");
     this.gameoverScreen.style.display = "none";
-    this.gameScreen.style.display = "block";
+    this.startScreen.style.display = "block";
     
     //restart boards
     this.playerBoard.reset();

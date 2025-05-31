@@ -3,17 +3,19 @@ const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 const playerBoardElement = document.getElementById("playerBoard");
 const enemyBoardElement = document.getElementById("enemyBoard");
-document.getElementById("ships-container");
+const shipsContainer = document.querySelector(".ships-container");
 
 //import audios
 const backgroundMusic = new Audio("sounds/Backgroundmusic.mp3");
 backgroundMusic.loop = true;
-backgroundMusic.volume = 0.4;
+backgroundMusic.volume = 0.2;
 
 const winSound = new Audio("sounds/Win.mp3");
-winSound.volume = 0.4;
+winSound.volume = 0.3;
 const loseSound = new Audio("sounds/Lose.mp3");
-loseSound.volume = 0.4;
+loseSound.volume = 0.3;
+const hit = new Audio("sounds/medium-explosion-40472.mp3");
+hit.volume = 0.5;
 
 
 let game;
@@ -21,6 +23,13 @@ let game;
 //event listeners
 btnStart.addEventListener("click", () => {
     startGame();
+
+    //start music only if it's not already playing
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch((error) => 
+            console.log("Autoplay blocked:", error)
+        );
+    }
 });
 
 

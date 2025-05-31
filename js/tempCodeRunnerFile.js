@@ -1,2 +1,0 @@
-
-        cell.classList.add("water");

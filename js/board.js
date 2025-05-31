@@ -32,8 +32,6 @@ class Board {
         }
         this.board.appendChild(row);
       }
-      console.log("Creating board for:", this.boardId);
-
    }
 
 
@@ -45,22 +43,19 @@ class Board {
             const row = Math.floor(Math.random() * this.size);
             const col = Math.floor(Math.random() * this.size);
 
-            //this selector looks for an element that has two specific data attributes
+            //select the corresponding cell
             const cell = this.board.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
-            //if the cell if already occupied, ship it
-            if (!cell || cell.classList.contains("ship") || cell.dataset.hasShip === "true") {
-                continue;
-            }
+            //if the cell if already occupied, skip to the next iteration
+            if (!cell || cell.dataset.hasShip === "true") {
+                continue;            
+            } 
 
-            if (this.boardId === "playerBoard") {
-                cell.classList.add("ship"); //show ships for the player
-            } else {
-                cell.dataset.hasShip = "true"; //hide ships for the enemy
-            }
-
-            placed++;
-        } 
+            //mark the cell as occupied by a ship
+            cell.dataset.hasShip = "true";
+            
+            placed++;       
+        }
     }
  
 
@@ -74,6 +69,8 @@ class Board {
         if(isStrike) {
             cell.classList.add("strike"); //mark as shot
             this.strikes++;
+            hit.play();
+
 
             //notify Game instance that a ship was hit
             if(this.onShipHit) {
@@ -87,8 +84,8 @@ class Board {
             console.log("Water!!")  
         }
 
-        if(this.strikes === this.totalShips) {
-            alert("You sank all the ships!"); //check if all ships are fired
+        if (this.strikes === this.totalShips) {
+            alert("You sank all the ships");  //check if all ships are fired
         }
     }
 

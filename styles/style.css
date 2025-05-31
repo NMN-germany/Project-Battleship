@@ -13,9 +13,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;    
-    margin: 100px auto; /*centered vertically with margin*/
-    max-width: 900px; /*max.width so that it does not occupy the whole screen*/
+    padding: 10px 40px;  /*less height, more internal width*/
+    margin: 50px auto; /*centered vertically with margin*/
+    max-width: 800px; /*max.width so that it does not occupy the whole screen*/
+    height: 870px;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
@@ -26,10 +27,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    width: 100%;
-    gap: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+ 
 }
 
 
@@ -39,8 +40,8 @@ body {
 
 
 .logo-img {
-    width: 90%;
-    height: 90%;
+    width: 80%;
+    height: 80%;
     padding: 40px;
 }
 
@@ -67,9 +68,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 150px;
-    width: 100%;
-    flex-wrap: wrap; /*responsive delay*/
-    margin-bottom: 60px;
+    margin: 30px auto;   
 }
 
 
@@ -85,6 +84,9 @@ body {
 .board {
     border-collapse: collapse;
     margin: 20px;
+    table-layout: fixed;
+    width: 300px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
 
 
@@ -112,24 +114,20 @@ body {
 .cell.water {
     background-image: url(../images/waterHit.png);
     background-position: center;
-    background-size: cover ;
+    background-size: cover;
 }
 
 .cell.ship {
-    background-color: rgb(128, 124, 124);
-}
-
-#enemyBoard [data-has-ship="true"] {
-    background-color: rgb(149, 204, 230);
+    width: 30px;
+    height: 30px;
 }
 
 
-.ships-container {
-   margin-top: 30px;
+#ships-container {
    display: flex;
+   padding: 10px;
+   gap: 250px; /*more space between containers*/
    justify-content: center;
-   gap: 150px; /*more space between containers*/
-   width: 100%;
 }
 
 .ship {
@@ -192,12 +190,14 @@ body {
 }
 
 #gameover-screen h2 {
-    font-size: 40px;
+    font-family: 'Brush Script MT', cursive;
+    font-size: italic;
+    font-size: 80px;
     margin: 30px 0;
-    color: gold;
+    color: rgb(118, 143, 196);
 }
 
-#btn.restart {
+#btn-restart {
     font-size: 25px;
     background-color: #d12d2d;
     font-weight: bold;
