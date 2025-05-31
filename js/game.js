@@ -18,6 +18,7 @@ class Game {
 
     this.startScreen.style.display = "none";
     this.gameScreen.style.display = "block";
+    backgroundMusic.play();
 
     //reset the counters
     this.playerShipsLeft = 10;
@@ -85,7 +86,7 @@ class Game {
         this.playerBoard.handleShot(cell);  //handleShot return true if it's sucessful
         
         this.isPlayerTurn = true;
-        
+
         if (this.enemyBoard.allShipsSunk()) {
             this.showGameOver("player");
         } else if (this.playerBoard.allShipsSunk()) {

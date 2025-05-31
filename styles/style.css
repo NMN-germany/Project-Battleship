@@ -2,8 +2,7 @@ body {
     padding: 0;
     margin: 0;
     text-align: center;
-    background-color: rgb(118, 143, 196);
-    
+    background-image: url("../images/image\ background.png");    
 }
 
 
@@ -14,9 +13,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: 10px 40px;  /*less height, more internal width*/
-    margin: 50px auto; /*centered vertically with margin*/
-    max-width: 800px; /*max.width so that it does not occupy the whole screen*/
-    height: 870px;
+    margin: 150px auto; /*centered vertically with margin*/
+    max-width: 700px; /*max.width so that it does not occupy the whole screen*/
+    height: 500px;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
@@ -29,22 +28,7 @@ body {
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 20px;
-    width: 80%;
- 
 }
-
-
-.logo-container {
-    margin-top: 20px;
-}
-
-
-.logo-img {
-    width: 80%;
-    height: 80%;
-    padding: 40px;
-}
-
 
 
 

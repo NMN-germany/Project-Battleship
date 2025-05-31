@@ -8,7 +8,7 @@ const shipsContainer = document.querySelector(".ships-container");
 //import audios
 const backgroundMusic = new Audio("sounds/Backgroundmusic.mp3");
 backgroundMusic.loop = true;
-backgroundMusic.volume = 0.2;
+backgroundMusic.volume = 0.1;
 
 const winSound = new Audio("sounds/Win.mp3");
 winSound.volume = 0.3;
@@ -22,14 +22,7 @@ let game;
 
 //event listeners
 btnStart.addEventListener("click", () => {
-    startGame();
-
-    //start music only if it's not already playing
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch((error) => 
-            console.log("Autoplay blocked:", error)
-        );
-    }
+    startGame();  
 });
 
 
