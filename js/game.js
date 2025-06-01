@@ -5,22 +5,15 @@ class Game {
         this.gameoverScreen = document.querySelector("#gameover-screen");
 
         this.playerBoard = new Board(8, "playerBoard");
-        this.enemyBoard = new Board(8, "enemyBoard");
-
-        this.playerBoard.onAllShipsSunk = (boardId) => {
-            this.showGameOverScreen("enemy");
-        };
-
-        this.enemyBoard.onAllShipsSunk = (boardId) => {
-            this.showGameOverScreen("player");
-        };
-
+        this.enemyBoard = new Board(8, "enemyBoard");    
+    
         this.isPlayerTurn = true;
         this.playerShipsLeft = 10;
         this.enemyShipsLeft = 10;
     }
 
 
+//create board, place ships and define callbacks
  start() {
     console.log("game is running");
 
@@ -32,25 +25,52 @@ class Game {
     this.playerShipsLeft = 10;
     this.enemyShipsLeft = 10;
 
-    //creates and stores the boards
-    this.playerBoard.generateBoard();
+    //reset boards
+    this.playerBoard.reset();
+    this.enemyBoard.reset();
+
+    //place the ships after the reset
     this.playerBoard.placeShips();
+    this.enemyBoard.placeShips();
+
+
+    console.log("Player ships placed:", this.playerBoard.shipPositions.length);
+    console.log("Enemy ships placed:", this.enemyBoard.shipPositions.length);
+
+    console.log("Player strikes before reset:", this.playerBoard.strikes);
+    console.log("Enemy strikes before reset:", this.enemyBoard.strikes);
+
+    this.strikes = 0;
+
+
     this.shipsIcons("player-ships", this.playerShipsLeft);
+    this.shipsIcons("enemy-ships", this.enemyShipsLeft);
+    
+    //callbacks to playerBoard    
     this.playerBoard.onShipHit = (boardId) => {
     this.removeShipIcon("player-ships");
     };
+    this.playerBoard.onAllShipsSunk = (boardId) => {
+           this.showGameOverScreen("enemy");
+    };
 
     
-    this.enemyBoard.generateBoard();
-    this.enemyBoard.placeShips();
-    this.shipsIcons("enemy-ships", this.enemyShipsLeft);
-        this.enemyBoard.onShipHit = (boardId) => {
-            this.removeShipIcon("enemy-ships");
+   //callbacks to enemyBoard    
+    this.enemyBoard.onShipHit = (boardId) => {
+        this.removeShipIcon("enemy-ships");
+    };
+    this.enemyBoard.onAllShipsSunk = (boardId) => {
+        this.showGameOverScreen("player");
     };
 
-    this.enemyBoard.onCellClick = (cell)  => {    // callback function to the enemy board
+    //click in enemyBoard to shot
+    this.enemyBoard.onCellClick = (cell)  => {
         this.playerShot(cell);
     };
+
+    //start the player's turn
+    this.isPlayerTurn = true;
+
  }
 
     
@@ -74,7 +94,7 @@ class Game {
 
     setTimeout(() => {
         this.enemyShot();  //enemy shoots at the player
-    }, 1000);
+    }, 500);
  }
 
 
@@ -99,8 +119,7 @@ class Game {
             this.showGameOverScreen("player");
         } else if (this.playerBoard.allShipsSunk()) {
             this.showGameOverScreen("enemy");
-        }
-            
+        }            
 
     } else {
         this.enemyShot();
@@ -156,6 +175,7 @@ class Game {
     this.enemyBoard.reset();
 
     //places ships again
-    this.start();
+    this.start();   
  }
+
 }

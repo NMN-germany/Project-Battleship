@@ -30,11 +30,7 @@ btnRestart.addEventListener("click", () => {
     restartGame();
 
     //start music only if it's not already playing
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch((error) => 
-            console.log("Autoplay blocked:", error)
-        );
-    }
+    
 });
 
 
@@ -43,12 +39,12 @@ function startGame() {
     console.log("starting the game");
     game = new Game()
     game.start()
-}
+};
 
 
 
 function restartGame() {
     console.log("restart the game");
     game.restart();
-}
+};
 

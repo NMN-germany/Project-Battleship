@@ -5,7 +5,8 @@ class Board {
         this.boardId = boardId;
         this.totalShips = 10;
         this.strikes = 0;
-        this.ships = []; // array of ships
+        this.shipPositions = []; // array of ships
+        this.onAllShipsSunk = null;
     }
 
     //creates board inside the indicated table
@@ -38,6 +39,7 @@ class Board {
     //places the ships randomly
     placeShips() {
         let placed = 0;
+        this.shipPositions = [];
 
         while (placed < this.totalShips) {
             const row = Math.floor(Math.random() * this.size);
@@ -53,14 +55,18 @@ class Board {
 
             //mark the cell as occupied by a ship
             cell.dataset.hasShip = "true";
+
+            //save the position of the ship
+            this.shipPositions.push({ row, col, hit: false });
             
-            placed++;       
+            placed++;   
         }
     }
  
 
     //handles a shot fired at a cell
     handleShot(cell) {
+
         if(cell.classList.contains("strike") || cell.classList.contains("water")) //if the cell was already clicked(strike/water), do nothing
             return;
 
@@ -86,13 +92,19 @@ class Board {
 
         if (this.strikes === this.totalShips) {
             if (this.onAllShipsSunk) {
+                 console.log("All ships sunk callback triggered!");
                 this.onAllShipsSunk(this.boardId); //notify the game
             }
         }
-        //if (this.strikes === this.totalShips) {
-            //alert("You sank all the ships");  //check if all ships are fired
-        //}
     }
+
+
+    //markShipHit(row,col) {
+        //const ship = this.shipPositions.find(pos => pos.row === row && pos.col === col);
+        //if (ship && !ship.hit) {
+           // ship.hit = true;
+       // }
+   // }
 
 
     //returns true if all ships have been hit
@@ -100,8 +112,11 @@ class Board {
         return this.strikes === this.totalShips;
     }
 
-
+    //clears the DOM from the board, restarts ships and internal counter
     reset() {
+        this.board.innerHTML = "";
+        this.shipPositions = [];
+        this.strikes = 0;
         this.generateBoard();
         this.placeShips();
     }
